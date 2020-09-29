@@ -71,5 +71,6 @@ const ContactState = props => {
 };
 
 //In order to use this Provider we have to wrap our App.js
+//This file will allow any component to access this state and actions, avoiding prop.drilling
 
 export default ContactState;
