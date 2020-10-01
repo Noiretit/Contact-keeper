@@ -39,7 +39,9 @@ const ContactState = props => {
             }
         ],
         //This piece of state is for the edit, so once we edit a contact it will be added to this piece.
-        current: null
+        current: null,
+        //It will be an array of filtered contacts
+        filtered: null
     };
 
     //State allows us to access anything in our state
@@ -76,19 +78,27 @@ const ContactState = props => {
     };
 
     //Filter contacts
+    const filterContacts = text  => {
+        dispatch({ type: FILTER_CONTACTS, payload: text });
+    };
 
     //Clear filter
-
+    const clearFilter = ()  => {
+        dispatch({ type: CLEAR_FILTER });
+    };
 
     return (
         <ContactContext.Provider value={{
             contacts: state.contacts,
             current: state.current,
+            filtered: state.filtered,
             addContact,
             deleteContact,
             setCurrent,
             clearCurrent,
-            updateContact
+            updateContact,
+            filterContacts,
+            clearFilter
         }}>
             { props.children }
         </ContactContext.Provider>
