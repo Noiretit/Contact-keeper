@@ -11,7 +11,7 @@ const Login = () => {
     const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
     const onSubmit = e => {
-        e.prevent.default();
+        e.preventDefault();
         console.log('Login submit');
     }
 
