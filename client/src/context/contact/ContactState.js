@@ -37,7 +37,9 @@ const ContactState = props => {
                 phone: '333-333-3333',
                 type: 'professional'
             }
-        ]
+        ],
+        //This piece of state is for the edit, so once we edit a contact it will be added to this piece.
+        current: null
     };
 
     //State allows us to access anything in our state
@@ -59,10 +61,19 @@ const ContactState = props => {
     };
 
     //Set current contact
+    const setCurrent = contact  => {
+        dispatch({ type: SET_CURRENT, payload: contact });
+    };
 
     //Clear current contact
+    const clearCurrent = ()  => {
+        dispatch({ type: CLEAR_CURRENT });
+    };
 
     //Update contact
+    const updateContact = contact  => {
+        dispatch({ type: UPDATE_CONTACT, payload: contact });
+    };
 
     //Filter contacts
 
@@ -72,8 +83,12 @@ const ContactState = props => {
     return (
         <ContactContext.Provider value={{
             contacts: state.contacts,
+            current: state.current,
             addContact,
-            deleteContact
+            deleteContact,
+            setCurrent,
+            clearCurrent,
+            updateContact
         }}>
             { props.children }
         </ContactContext.Provider>
