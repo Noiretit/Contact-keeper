@@ -1,66 +1,79 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 //Random ID generators
-import {v4 as uuid} from 'uuid';
 import ContactContext from './ContactContext';
 import ContactReducer from './ContactReducer';
 import {
+    GET_CONTACTS,
     ADD_CONTACT,
     DELETE_CONTACT,
     SET_CURRENT,
     CLEAR_CURRENT,
+    CLEAR_CONTACTS,
     UPDATE_CONTACT,
     FILTER_CONTACTS,
-    CLEAR_FILTER
+    CLEAR_FILTER,
+    CONTACT_ERROR
 } from '../types';
 
 const ContactState = props => {
     const initialState = {
-        contacts: [
-            {
-                id: 1,
-                name: 'Jill Johnson',
-                email: 'jill@gmail.com',
-                phone: '111-111-1111',
-                type: 'personal'
-            },
-            {
-                id: 2,
-                name: 'Lourdes Riojana',
-                email: 'lourdes@gmail.com',
-                phone: '222-222-2222',
-                type: 'personal'
-            },
-            {
-                id: 3,
-                name: 'Jean Baptiste',
-                email: 'jb@gmail.com',
-                phone: '333-333-3333',
-                type: 'professional'
-            }
-        ],
+        contacts: null,
         //This piece of state is for the edit, so once we edit a contact it will be added to this piece.
         current: null,
         //It will be an array of filtered contacts
-        filtered: null
+        filtered: null,
+        error: null
     };
 
     //State allows us to access anything in our state
     //Dispatch allows us to dispatch objects to the reducer
     const [state, dispatch] = useReducer(ContactReducer, initialState);
 
-    //All our actions down below
+    //Get contacts
+    const getContacts = async () => {
+        try {
+            const res = await axios.get('/api/contacts',);
+            dispatch({ 
+                type: GET_CONTACTS, 
+                payload: res.data });
+        } catch (err) {
+            dispatch({ 
+                type: CONTACT_ERROR, 
+                payload: err.response.msg })
+        }
+    }
 
     //Add contact
-    const addContact = contact => {
-        // uuid.v4() is a way to generate a random ID with uuid library
-        contact.id = uuid;
-        dispatch({ type: ADD_CONTACT, payload: contact });
+    const addContact = async contact => {
+        //Header bc we are sending data so we need that content type application json 
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
+            const res = await axios.post('/api/contacts', contact, config);
+            dispatch({ 
+                type: ADD_CONTACT, 
+                payload: res.data });
+        } catch (err) {
+            dispatch({ 
+                type: CONTACT_ERROR, 
+                payload: err.response.msg })
+        }
     };
 
     //Delete contact
     const deleteContact = id  => {
         dispatch({ type: DELETE_CONTACT, payload: id });
     };
+
+    //Clear contacts
+    const clearContacts = () => {
+        dispatch({ type: CLEAR_CONTACTS })
+    }
 
     //Set current contact
     const setCurrent = contact  => {
@@ -92,13 +105,16 @@ const ContactState = props => {
             contacts: state.contacts,
             current: state.current,
             filtered: state.filtered,
+            error: state.error,
             addContact,
             deleteContact,
+            clearContacts,
             setCurrent,
             clearCurrent,
             updateContact,
             filterContacts,
-            clearFilter
+            clearFilter,
+            getContacts
         }}>
             { props.children }
         </ContactContext.Provider>
