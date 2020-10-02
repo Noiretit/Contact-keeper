@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import {
@@ -27,14 +28,49 @@ const AuthState = props => {
     //All our actions down below
 
     //Load user
+    const loadUser = () => {
+        console.log('load user')
+    }
 
     //Register user
+    const register = async formData => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
 
+        try {
+            //No need to add the pull URL bc we have proxy in client's package.json
+            const res = await axios.post('/api/users', formData, config);
+
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: res.data //response is the token, which is sent to backend\routes\users.js
+            })
+        } catch (err) {
+            dispatch({
+                type: REGISTER_FAIL,
+                payload: err.response.data.msg //backend\routes\user.js line 36
+            })
+        }
+    }
     //Login user
+    const login = () => {
+        console.log('login user')
+    }
 
     //Logout
+    const logout = () => {
+        console.log('logout')
+    }
 
     //Clear errors
+    const clearErrors = () => {
+        dispatch({
+            type: CLEAR_ERRORS
+        })
+    }
 
     return (
         <AuthContext.Provider value={{
@@ -43,6 +79,11 @@ const AuthState = props => {
             loading: state.loading,
             user: state.user,
             error: state.error,
+            register,
+            loadUser,
+            login,
+            logout,
+            clearErrors
         }}>
             { props.children }
         </AuthContext.Provider>
