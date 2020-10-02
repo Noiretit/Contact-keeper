@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
+import setAuthToken from '../../utils/setAuthToken'
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
@@ -25,11 +26,26 @@ const AuthState = props => {
     
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-    //All our actions down below
-
     //Load user
-    const loadUser = () => {
-        console.log('load user')
+    const loadUser = async () => {
+        if (localStorage.token) {
+            setAuthToken(localStorage.token);
+        }
+
+        try {
+            const res = await axios.get('/api/auth'); //route to check the token
+
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data //actual user data
+            });
+
+            loadUser();
+        } catch (err) {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }
     }
 
     //Register user
@@ -47,7 +63,9 @@ const AuthState = props => {
             dispatch({
                 type: REGISTER_SUCCESS,
                 payload: res.data //response is the token, which is sent to backend\routes\users.js
-            })
+            });
+
+            loadUser();
         } catch (err) {
             dispatch({
                 type: REGISTER_FAIL,
@@ -56,21 +74,35 @@ const AuthState = props => {
         }
     }
     //Login user
-    const login = () => {
-        console.log('login user')
-    }
+    const login = async formData => {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+    
+        try {
+          const res = await axios.post('/api/auth', formData, config);
+    
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data
+          });
+    
+          loadUser();
+        } catch (err) {
+          dispatch({
+            type: LOGIN_FAIL,
+            payload: err.response.data.msg
+          });
+        }
+      };
 
     //Logout
-    const logout = () => {
-        console.log('logout')
-    }
+    const logout = () => dispatch({ type: LOGOUT });
 
     //Clear errors
-    const clearErrors = () => {
-        dispatch({
-            type: CLEAR_ERRORS
-        })
-    }
+    const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
     return (
         <AuthContext.Provider value={{
