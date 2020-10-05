@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 //Random ID generators
-import ContactContext from './contactContext';
-import ContactReducer from './contactReducer';
+import ContactContext from './contactContextY';
+import ContactReducer from './contactReducerY';
 import {
     GET_CONTACTS,
     ADD_CONTACT,

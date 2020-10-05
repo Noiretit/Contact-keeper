@@ -2,16 +2,16 @@ import React, { Fragment } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/layout/NavbarY';
-import Home from './components/pages/Home'
-import About from './components/pages/About'
+import Home from './components/pages/HomeY'
+import About from './components/pages/AboutY'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Alerts from './components/layout/AlertsY'
-import PrivateRoute from './components/routing/PrivateRoute'
+import PrivateRoute from './components/routing/PrivateRouteY'
 
-import ContactState from './context/contact/ContactState'
-import AuthState from './context/auth/AuthState'
-import AlertState from './context/alert/AlertState'
+import ContactState from './context/contact/ContactStateY'
+import AuthState from './context/auth/AuthStateY'
+import AlertState from './context/alert/AlertStateY'
 import setAuthToken from './utils/setAuthToken'
 
 if (localStorage.token) {

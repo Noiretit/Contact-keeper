@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContextY';
-import ContactContext from '../../context/contact/contactContext';
+import ContactContext from '../../context/contact/contactContextY';
 
 const NavbarY = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
