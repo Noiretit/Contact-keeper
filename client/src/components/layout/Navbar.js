@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
+import AuthContext from './../../context/auth/authContext';
 import ContactContext from '../../context/contact/contactContext';
 
 const Navbar = ({ title, icon }) => {
