@@ -1,10 +1,10 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AuthContext from './../../context/auth/authContext';
+import AuthContext from '../../context/auth/authContextY';
 import ContactContext from '../../context/contact/contactContext';
 
-const Navbar = ({ title, icon }) => {
+const NavbarY = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
   const contactContext = useContext(ContactContext);
 
@@ -56,14 +56,14 @@ const Navbar = ({ title, icon }) => {
   );
 };
 
-Navbar.propTypes = {
+NavbarY.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string
 };
 
-Navbar.defaultProps = {
+NavbarY.defaultProps = {
   title: 'Contact Keeper',
   icon: 'fas fa-id-card-alt'
 };
 
-export default Navbar;
+export default NavbarY;
