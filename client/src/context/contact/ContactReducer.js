@@ -6,7 +6,9 @@ import {
     CLEAR_CURRENT,
     UPDATE_CONTACT,
     FILTER_CONTACTS,
-    CLEAR_FILTER, CONTACT_ERROR, CLEAR_CONTACTS
+    CLEAR_FILTER, 
+    CONTACT_ERROR, 
+    CLEAR_CONTACTS
 } from '../types';
 
 export default (state, action) => {
@@ -30,7 +32,7 @@ export default (state, action) => {
             return {
                 ...state,
                 contacts: state.contacts.map(contact => 
-                    contact.id === action.payload.id ? action.payload : contact),
+                    contact._id === action.payload._id ? action.payload : contact),
                 loading: false
             }
         case DELETE_CONTACT:

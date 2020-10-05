@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import AuthContext from './AuthContext';
-import AuthReducer from './AuthReducer';
+import AuthContext from './authContext';
+import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken'
 import {
     REGISTER_SUCCESS,
@@ -24,7 +24,7 @@ const AuthState = props => {
     };
 
     
-    const [state, dispatch] = useReducer(AuthReducer, initialState);
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
     //Load user
     const loadUser = async () => {
@@ -39,8 +39,6 @@ const AuthState = props => {
                 type: USER_LOADED,
                 payload: res.data //actual user data
             });
-
-            loadUser();
         } catch (err) {
             dispatch({
                 type: AUTH_ERROR

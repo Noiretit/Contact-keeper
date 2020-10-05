@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import {v4 as uuid} from 'uuid';
 
-import AlertContext from './AlertContext';
-import AlertReducer from './AlertReducer';
+import AlertContext from './alertContext';
+import alertReducer from './alertReducer';
 import {
     SET_ALERT,
     REMOVE_ALERT
@@ -12,7 +12,7 @@ const AlertState = props => {
     const initialState = [];
 
     
-    const [state, dispatch] = useReducer(AlertReducer, initialState);
+    const [state, dispatch] = useReducer(alertReducer, initialState);
 
     //All our actions down below
 
